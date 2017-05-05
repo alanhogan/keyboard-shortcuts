@@ -2,7 +2,8 @@ const shortcuts = require('../src/index.js');
 
 const sharedShortcutDict = {
   bold: ["CmdXorCtrl", "b"],
-  foo: ["CmdXorCtrl", "Shift", "c"]
+  foo: ["CmdXorCtrl", "Shift", "c"],
+  meta_x: ["meta", "X"]
 };
 const winShortcuts = shortcuts(Object.assign({}, sharedShortcutDict, {
   zoom_in: ["Ctrl", "+"]
@@ -22,6 +23,10 @@ describe("on windows", () => {
 
   test("bold is right", () => {
       expect(winShortcuts.describeAsString("bold")).toBe("Ctrl+B");
+  });
+
+  test("meta_x Win+X", () => {
+      expect(winShortcuts.describeAsString("meta_x")).toBe("Win+X");
   });
 
 
@@ -48,8 +53,12 @@ describe("on mac", () => {
     expect(macShortcuts.mac).toBe(true);
   });
 
-  test("bold is right on Mac", () => {
+  test("bold is right", () => {
       expect(macShortcuts.describeAsString("bold")).toBe("⌘B");
+  });
+
+  test("meta_x is ⌘X", () => {
+      expect(macShortcuts.describeAsString("meta_x")).toBe("⌘X");
   });
 
   test("explicit ctrl_plus is right on Mac", () => {

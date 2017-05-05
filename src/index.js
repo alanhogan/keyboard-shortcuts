@@ -2,6 +2,8 @@ function tokensForWin(tokens) {
   return tokens.map((token) => {
     if (token === 'CmdXorCtrl') {
       return 'Ctrl'
+    } else if (token === 'Meta') {
+      return 'Win'
     } else if (token.length === 1) {
       return token.toUpperCase();
     } else {
@@ -29,7 +31,7 @@ function tokensForMac(tokens) {
   return orderMacTokens(tokens.map((token) => {
     if (token === 'CmdXorCtrl') {
       return '⌘'
-    } else if (token === 'Cmd') {
+    } else if (token === 'Meta') {
       return '⌘'
     } else if (token === 'Ctrl') {
       return '^'
@@ -58,17 +60,17 @@ function standardizeTokens(tokens) {
       case "cmdxorctrl":
         return "CmdXorCtrl";
       case "cmd":
-        return "Cmd";
+        return "Meta";
       case "command":
-        return "Cmd";
+        return "Meta";
+      case "⌘":
+        return "Meta";
       case "alt":
         return "Alt";
       case "option":
         return "Alt";
       case "opt":
         return "Alt";
-      case "⌘":
-        return "Cmd";
       case "⎇":
         return "Alt";
       case "⌥":
