@@ -14,6 +14,14 @@ function tokensForMac(tokens) {
   return tokens.map((token) => {
     if (token === 'CmdXorCtrl') {
       return '⌘'
+    } else if (token === 'Cmd') {
+      return '⌘'
+    } else if (token === 'Ctrl') {
+      return '^'
+    } else if (token === 'Alt') {
+      return '⎇'
+    } else if (token === 'Shift') {
+      return '⇧'
     } else if (token.length === 1) {
       return token.toUpperCase();
     } else {

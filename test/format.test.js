@@ -1,14 +1,17 @@
 const shortcuts = require('../src/index.js');
 
-const shortcutsDict = {
+const winShortcuts = shortcuts({
   bold: ["CmdXorCtrl", "b"],
   zoom_in: ["Ctrl", "+"],
   foo: ["Ctrl", "Shift", "c"]
-};
+});
 
-const winShortcuts = shortcuts(shortcutsDict);
-
-const macShortcuts = shortcuts(shortcutsDict, true);
+const macShortcuts = shortcuts({
+  bold: ["CmdXorCtrl", "b"],
+  ctrl_plus: ["Ctrl", "+"],
+  cmd_plus: ["Cmd", "+"],
+  foo: ["Ctrl", "Shift", "c"]
+}, true);
 
 
 test("defaults to not mac", () => {
@@ -30,4 +33,12 @@ test("thinks it's mac if you say so", () => {
 
 test("bold is right on Mac", () => {
     expect(macShortcuts.describeAsString("bold")).toBe("⌘B");
+});
+
+test("explicit ctrl_plus is right on Mac", () => {
+    expect(macShortcuts.describeAsString("ctrl_plus")).toBe("^+");
+});
+
+test("explicit cmd_plus is right on Mac", () => {
+    expect(macShortcuts.describeAsString("cmd_plus")).toBe("⌘+");
 });
