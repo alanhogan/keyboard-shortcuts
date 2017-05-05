@@ -1,15 +1,15 @@
 function tokensForWin(tokens) {
-  return tokens.map((token) => {
-    if (token === 'CmdXorCtrl') {
-      return 'Ctrl'
-    } else if (token === 'Meta') {
-      return 'Win'
+  return tokens.map(token => {
+    if (token === "CmdXorCtrl") {
+      return "Ctrl";
+    } else if (token === "Meta") {
+      return "Win";
     } else if (token.length === 1) {
       return token.toUpperCase();
     } else {
       return token;
     }
-  })
+  });
 }
 
 function orderMacTokens(tokens) {
@@ -28,29 +28,31 @@ function orderMacTokens(tokens) {
 }
 
 function tokensForMac(tokens) {
-  return orderMacTokens(tokens.map((token) => {
-    if (token === 'CmdXorCtrl') {
-      return '⌘'
-    } else if (token === 'Meta') {
-      return '⌘'
-    } else if (token === 'Ctrl') {
-      return '^'
-    } else if (token === 'Alt') {
-      return '⌥'
-    } else if (token === 'Shift') {
-      return '⇧'
-    } else if (token.length === 1) {
-      return token.toUpperCase();
-    } else {
-      return token;
-    }
-  }));
+  return orderMacTokens(
+    tokens.map(token => {
+      if (token === "CmdXorCtrl") {
+        return "⌘";
+      } else if (token === "Meta") {
+        return "⌘";
+      } else if (token === "Ctrl") {
+        return "^";
+      } else if (token === "Alt") {
+        return "⌥";
+      } else if (token === "Shift") {
+        return "⇧";
+      } else if (token.length === 1) {
+        return token.toUpperCase();
+      } else {
+        return token;
+      }
+    })
+  );
 }
 
 function standardizeTokens(tokens) {
-  return tokens.map((origToken) => {
+  return tokens.map(origToken => {
     const token = origToken.toLowerCase();
-    switch(token) {
+    switch (token) {
       case "ctrl":
         return "Ctrl";
       case "control":
@@ -97,17 +99,29 @@ function standardizeTokens(tokens) {
   });
 }
 
+function accessibleTokens(tokens) {
+  return tokens.map(token => {});
+}
+
 class Shortcuts {
   constructor(dict, isMac = false) {
     this.dict = dict;
-    this.mac = !! isMac;
+    this.mac = !!isMac;
   }
 
   set mac(isMac) {
-    this.isMac = !! isMac;
+    this.isMac = !!isMac;
   }
-  get mac () {
+  get mac() {
     return this.isMac;
+  }
+
+  tokensForHTML(shortcut) {
+    if (this.mac) {
+      return this.macTokensForHTML(shortcut);
+    } else {
+      return this.winTokensForHTML(shortcut);
+    }
   }
 
   describeAsString(shortcut) {
@@ -127,7 +141,7 @@ class Shortcuts {
     if (["+", "-"].indexOf(lastToken) > -1) {
       // Special case. We want "Ctrl +" instead of "Ctrl++"
       tokens.pop();
-      return `${tokens.join("+")} ${lastToken}`
+      return `${tokens.join("+")} ${lastToken}`;
     }
 
     return tokens.join("+");
@@ -144,10 +158,25 @@ class Shortcuts {
       throw new Error(`Shortcut “${shortcut}” does not exist`);
     }
   }
+
+  macTokensForHTML(shortcut) {
+    this.requireShortcut(shortcut);
+
+    return accessibleTokens(
+      tokensForMac(standardizeTokens(this.dict[shortcut]))
+    );
+  }
+
+  winTokensForHTML(shortcut) {
+    this.requireShortcut(shortcut);
+
+    return accessibleTokens(
+      tokensForWin(standardizeTokens(this.dict[shortcut]))
+    );
+  }
 }
 
-
-function shortcuts (dict, mac) {
+function shortcuts(dict, mac) {
   return new Shortcuts(dict, mac);
 }
 
