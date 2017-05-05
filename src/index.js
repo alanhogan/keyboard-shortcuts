@@ -10,8 +10,23 @@ function tokensForWin(tokens) {
   })
 }
 
+function orderMacTokens(tokens) {
+  return tokens.sort((a, b) => {
+    // Order is ^⎇⇧⌘
+    if (a == "^") return -1;
+    if (b == "^") return 1;
+    if (a == "⎇") return -1;
+    if (b == "⎇") return 1;
+    if (a == "⇧") return -1;
+    if (b == "⇧") return 1;
+    if (a == "⌘") return -1;
+    if (b == "⌘") return 1;
+    return b.charCode - a.charCode;
+  });
+}
+
 function tokensForMac(tokens) {
-  return tokens.map((token) => {
+  return orderMacTokens(tokens.map((token) => {
     if (token === 'CmdXorCtrl') {
       return '⌘'
     } else if (token === 'Cmd') {
@@ -27,7 +42,7 @@ function tokensForMac(tokens) {
     } else {
       return token;
     }
-  })
+  }));
 }
 
 class Shortcuts {
