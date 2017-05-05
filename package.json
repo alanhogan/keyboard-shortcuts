@@ -1,0 +1,14 @@
+{
+  "name": "keyboard-shortcuts",
+  "version": "0.0.1",
+  "main": "index.js",
+  "repository": "git@github.com:alanhogan/keyboard-shortcuts.git",
+  "author": "Alan Hogan <contact@alanhogan.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^19.0.2"
+  },
+  "scripts": {
+    "test": "jest"
+  }
+}
