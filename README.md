@@ -1,5 +1,7 @@
 # keyboard-shortcuts
 
+[![Build Status](https://travis-ci.org/alanhogan/keyboard-shortcuts.svg?branch=master)](https://travis-ci.org/alanhogan/keyboard-shortcuts)
+
 From a single source of truth, let’s:
 
 - Format shortcut descriptions as a string *or* as accessible HTML
