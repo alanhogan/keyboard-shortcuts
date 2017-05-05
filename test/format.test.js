@@ -10,7 +10,8 @@ const winShortcuts = shortcuts(Object.assign({}, sharedShortcutDict, {
 
 const macShortcuts = shortcuts(Object.assign({}, sharedShortcutDict, {
   ctrl_plus: ["Ctrl", "+"],
-  cmd_plus: ["Cmd", "+"]
+  cmd_plus: ["Cmd", "+"],
+  all_the_things: ["Cmd", "shift", "option", "ctrl", "←"]
 }), true);
 
 describe("on windows", () => {
@@ -60,5 +61,8 @@ describe("on mac", () => {
   });
   test("will correctly format a platform-independent Ctrl+Shift+C", () => {
     expect(macShortcuts.describeAsString("foo")).toBe("⇧⌘C");
+  });
+  test("will correctly order and format a very surprising command in the wrong order", () => {
+    expect(macShortcuts.describeAsString("all_the_things")).toBe("^⌥⇧⌘←");
   });
 });

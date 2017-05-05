@@ -12,11 +12,11 @@ function tokensForWin(tokens) {
 
 function orderMacTokens(tokens) {
   return tokens.sort((a, b) => {
-    // Order is ^⎇⇧⌘
+    // Order is ^⌥⇧⌘
     if (a == "^") return -1;
     if (b == "^") return 1;
-    if (a == "⎇") return -1;
-    if (b == "⎇") return 1;
+    if (a == "⌥") return -1;
+    if (b == "⌥") return 1;
     if (a == "⇧") return -1;
     if (b == "⇧") return 1;
     if (a == "⌘") return -1;
@@ -34,7 +34,7 @@ function tokensForMac(tokens) {
     } else if (token === 'Ctrl') {
       return '^'
     } else if (token === 'Alt') {
-      return '⎇'
+      return '⌥'
     } else if (token === 'Shift') {
       return '⇧'
     } else if (token.length === 1) {
@@ -43,6 +43,56 @@ function tokensForMac(tokens) {
       return token;
     }
   }));
+}
+
+function standardizeTokens(tokens) {
+  return tokens.map((origToken) => {
+    const token = origToken.toLowerCase();
+    switch(token) {
+      case "ctrl":
+        return "Ctrl";
+      case "control":
+        return "Ctrl";
+      case "^":
+        return "Ctrl";
+      case "cmdxorctrl":
+        return "CmdXorCtrl";
+      case "cmd":
+        return "Cmd";
+      case "command":
+        return "Cmd";
+      case "alt":
+        return "Alt";
+      case "option":
+        return "Alt";
+      case "opt":
+        return "Alt";
+      case "⌘":
+        return "Cmd";
+      case "⎇":
+        return "Alt";
+      case "⌥":
+        return "Alt";
+      case "shift":
+        return "Shift";
+      case "win":
+        return "Meta";
+      case "windows":
+        return "Meta";
+      case "meta":
+        return "Meta";
+      case "left arrow":
+        return "←";
+      case "up arrow":
+        return "↑";
+      case "down arrow":
+        return "↓";
+      case "right arrow":
+        return "→";
+      default:
+        return origToken.toUpperCase();
+    }
+  });
 }
 
 class Shortcuts {
@@ -69,7 +119,7 @@ class Shortcuts {
   describeAsWinString(shortcut) {
     this.requireShortcut(shortcut);
 
-    let tokens = tokensForWin(this.dict[shortcut]);
+    let tokens = tokensForWin(standardizeTokens(this.dict[shortcut]));
     const lastToken = tokens[tokens.length - 1];
 
     if (["+", "-"].indexOf(lastToken) > -1) {
@@ -84,7 +134,7 @@ class Shortcuts {
   describeAsMacString(shortcut) {
     this.requireShortcut(shortcut);
 
-    return tokensForMac(this.dict[shortcut]).join("");
+    return tokensForMac(standardizeTokens(this.dict[shortcut])).join("");
   }
 
   requireShortcut(shortcut) {
